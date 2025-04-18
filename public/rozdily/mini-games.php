@@ -119,6 +119,7 @@ session_start();
   <button class="game-button" onclick="loadGame('coin', this)">🪙 Монетка</button>
   <button class="game-button" onclick="loadGame('roulette', this)">🎡 Рулетка</button>
   <button class="game-button" onclick="loadGame('guess', this)">🔢 Угадай число</button>
+  <button class="game-button" onclick="loadGame('stairs', this)">🪜 Лестница</button>
 </div>
 
 <div id="game-container">

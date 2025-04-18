@@ -649,16 +649,14 @@ header("Expires: 0"); // Пропуск кеша
                 <label for="phone">Номер телефону:</label>
                 <input type="tel" id="phone" name="phone" required>
             </div>
-            <div class="form-row">
-    <label for="referred_by">Промокод (необов'язково):</label>
-    <input type="text" id="referred_by" name="referred_by">
-</div>
-
-            </div>
-            <div class="form-row">
+            <div class="form-row" >
                 <button type="submit">Регистрация</button>
             </div>
+            
+
+            <div class="alrReg">
             <p class="switch-login">Вже маете акаунт? <a href="#" onclick="switchToLogin()">Увійти</a></p>
+            </div>
         </form>
     </div>
 </div>
@@ -666,7 +664,7 @@ header("Expires: 0"); // Пропуск кеша
 
     <!-- Подвал сайта -->
     <footer>
-        <p>&copy; 2024 Sport Bet. Усі права захищені.</p>
+        <p>&copy; 2025 Sport Bet. Усі права захищені.</p>
     </footer>
 
 
