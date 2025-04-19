@@ -42,7 +42,6 @@ try {
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
             background-color: #f4f4f9;
             color: #333;
         }
@@ -94,14 +93,48 @@ try {
         }
         a {
             text-decoration: none;
-            color: #007BFF;
+            color:rgb(255, 255, 255);
         }
         a:hover {
             text-decoration: underline;
         }
+
     </style>
 </head>
 <body>
+
+<header>
+        <div class="top-bar">
+            <div class="logo">
+                <h1><a href="#" onclick="showHomePage()">Sport Bet</a></h1>
+            </div>
+
+            <!-- Верхняя навигационная панель -->
+            <nav class="main-nav">
+    <a href="rozdily/events.php">Спортивні події</a>
+    <a href="rozdily/slots.php">Слоти</a>
+    <a href="rozdily/mini-games.php">Міні ігри</a>
+    <a href="rozdily/referral.php">Реферальна програма</a>
+</nav>
+
+
+<nav class="auth-links">
+    <?php if (isset($_SESSION['user'])): ?>
+        <!-- Пользователь вошел -->
+        <span>Баланс: <?php echo htmlspecialchars($_SESSION['user']['balance']); ?>₴</span>
+        <a href="profile.php">Профіль</a>
+        <a href="logout.php">Вийти</a>
+    <?php else: ?>
+        <!-- Пользователь не вошел -->
+        <a href="#" onclick="openLoginModal()">Вхід</a> | <a href="#" onclick="openRegisterModal()">Реєстрація</a>
+    <?php endif; ?>
+</nav>
+
+        </div>
+    </header>
+
+
+
 <div class="profile-container">
     <div class="profile-header">
         <h1>Ласкаво просимо <?php echo htmlspecialchars($user['username']); ?>!</h1>

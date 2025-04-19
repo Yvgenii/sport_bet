@@ -131,6 +131,14 @@ table th {
    .close:hover {
        color: #000;
    }
+
+   #welcome {
+    font-size: 2.5em;
+   }
+
+   #betsText {
+    font-size: 1.5em;
+   }
    
    h2 {
        font-size: 24px;
@@ -341,7 +349,7 @@ body {
     background-attachment: fixed; 
     background-size: 100% 100%;
     background-color: #ffffff;
-    color: #333;
+    color: #ffffff;
 }
 
 .dark-theme {
@@ -413,7 +421,12 @@ footer {
 .light-theme h1,
 .light-theme h2,
 .light-theme h3 {
-color: #333; /* Темный текст на светлом фоне */
+color: #ffffff; /* Темный текст на светлом фоне */
+}
+
+.light-theme h2,
+.light-theme #betsText {
+    -webkit-text-stroke: 0.3px rgb(145, 145, 145);
 }
 
 /* Темная тема */
@@ -560,9 +573,6 @@ color: #fff; /* Белый текст на темном фоне */
     color: #fff;
     text-decoration: none;
 }
-.auth-links a:hover {
-    text-decoration: underline;
-}
 a {
 text-decoration: none; /* Убирает подчёркивание */
 color: white; /* Устанавливает цвет текста */
@@ -574,6 +584,10 @@ transition: color 0.3s; /* Эффект плавного изменения цв
     display: flex; /* Выравнивает ссылки в строку */
     align-items: center; /* Центрирует ссылки по вертикали относительно родительского контейнера */
     gap: 10px; /* Добавляет расстояние между ссылками */
+}
+
+.auth-links a{
+    padding: 7px;
 }
 
 
@@ -601,8 +615,13 @@ transition: color 0.3s; /* Эффект плавного изменения цв
     transition: background-color 0.3s;
 }
 
-.category.active {
+.light-theme .category.active {
     background-color: #ff007a;
+    color: #fff;
+}
+
+.dark-theme .category.active {
+    background-color: #a4004f;
     color: #fff;
 }
 
@@ -615,7 +634,7 @@ max-width: 1200px; /* Ограничение ширины */
 margin: 0 auto; /* Центровка контейнера */
 }
 
-.event-card {
+.light-theme .event-card {
 flex: 1 1 calc(33.333% - 20px); /* Каждая карточка занимает 1/3 строки */
 max-width: calc(33.333% - 20px);
 background-color: #f9f9f9;
@@ -627,17 +646,37 @@ text-align: center;
 transition: transform 0.3s;
 }
 
+.dark-theme .event-card {
+    flex: 1 1 calc(33.333% - 20px); /* Каждая карточка занимает 1/3 строки */
+    max-width: calc(33.333% - 20px);
+    background-color: #333;
+    border: 1px solid #4d4d4d;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s;
+    }
+
 .event-card:hover {
 transform: translateY(-5px);
 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 
-.event-header {
+.light-theme .event-header {
     display: flex;
     justify-content: space-between;
     font-weight: bold;
     color: #333;
+    margin-bottom: 10px;
+}
+
+.dark-theme .event-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #c5c5c5;
     margin-bottom: 10px;
 }
 
@@ -648,13 +687,23 @@ box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     margin-bottom: 15px;
 }
 
-.team {
+.light-theme .team {
     font-weight: bold;
     color: #333;
 }
 
-.time {
+.dark-theme .team {
+    font-weight: bold;
+    color: #c5c5c5;
+}
+
+.light-theme .time {
     color: #666;
+    font-size: 14px;
+}
+
+.dark-theme .time {
+    color: #aaaaaa;
     font-size: 14px;
 }
 
@@ -664,7 +713,7 @@ box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     gap: 10px;
 }
 
-.odd {
+.light-theme .odd {
 background-color: #ff007a;
 color: #fff;
 padding: 5px 15px; /* Сократите отступы */
@@ -676,10 +725,26 @@ font-size: 14px; /* Уменьшите шрифт */
 transition: background-color 0.3s;
 display: inline-block; /* Убедитесь, что кнопки в строку */
 }
+.dark-theme .odd {
+    background-color: #a4004f;
+    color: #c5c5c5;
+    padding: 5px 15px; /* Сократите отступы */
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px; /* Уменьшите шрифт */
+    transition: background-color 0.3s;
+    display: inline-block; /* Убедитесь, что кнопки в строку */
+    }
 
-.odd:hover {
+.light-theme .odd:hover {
 background-color: #ff4f9a;
 }
+
+.dark-theme .odd:hover {
+    background-color: #45162a;
+    }
 
 /* Контейнер кнопок */
 .odds {
@@ -752,9 +817,13 @@ cursor: pointer;
 transition: background-color 0.3s;
 }
 
-button:hover {
+.light-theme button:hover {
 background-color: #ff4f9a; /* Цвет кнопки при наведении */
 }
+
+.dark-theme button:hover {
+    background-color: #7a274b; /* Цвет кнопки при наведении */
+    }
 
 /* Модальне вікно */
 /* Стили для модального окна */
@@ -820,10 +889,7 @@ input {
     transition: 0.3s ease-in-out;
 }
 
-.main-nav a:hover {
-    background-color: #444;
-    border-radius: 5px;
-}
+
 
 /* Главное меню */
 .main-nav ul {
@@ -845,9 +911,16 @@ input {
     font-weight: bold;
 }
 
-.main-nav a:hover {
+
+.logo {
+    padding: 10px;
+    }
+    
+header a:hover, .logo:hover, .auth-links a:hover {
     color: #f39c12;
-}
+    background-color: #444;
+    border-radius: 5px;
+    }
 
 /* Страница событий */
 main {
@@ -1030,4 +1103,28 @@ main li {
     margin: auto;
   }
 
-  
+  .header {
+    position: relative;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f2f2f2;
+  }
+
+  .logo, .auth-links {
+    flex: 0 0 auto;
+  }
+
+
+  .main-nav {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
+  .top-bar {
+    padding-bottom: 15px;
+  }

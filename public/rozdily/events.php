@@ -14,7 +14,36 @@ require_once __DIR__ . '/../../Private/db.php';
 <body>
 
 <header>
-<h1 class="page-title">Спортивні події</h1>
+        <div class="top-bar">
+            <div class="logo">
+                <h1><a href="../index.php" onclick="showHomePage()">Sport Bet</a></h1>
+            </div>
+
+            <!-- Верхняя навигационная панель -->
+            <nav class="main-nav">
+    <a href="../rozdily/events.php">Спортивні події</a>
+    <a href="../rozdily/slots.php">Слоти</a>
+    <a href="../rozdily/mini-games.php">Міні ігри</a>
+    <a href="../rozdily/referral.php">Реферальна програма</a>
+</nav>
+
+
+<nav class="auth-links">
+    <?php if (isset($_SESSION['user'])): ?>
+        <!-- Пользователь вошел -->
+        <span>Баланс: <?php echo htmlspecialchars($_SESSION['user']['balance']); ?>₴</span>
+        <a href="../profile.php">Профіль</a>
+        <a href="../logout.php">Вийти</a>
+    <?php else: ?>
+        <!-- Пользователь не вошел -->
+        <a href="#" onclick="openLoginModal()">Вхід</a> | <a href="#" onclick="openRegisterModal()">Реєстрація</a>
+    <?php endif; ?>
+</nav>
+
+        </div>
+    </header>
+
+<main><h1 class="page-title">Спортивні події</h1>
 
 <div class="sports-container">
     <a href="#" class="sport-card" onclick="loadMatches('Футбол')"><span>⚽ Футбол</span></a>
@@ -28,11 +57,7 @@ require_once __DIR__ . '/../../Private/db.php';
 
 <div id="matches-container">
     <p>Оберіть вид спорту для перегляду матчів.</p>
-</div>
-
-</header>
-
-<main></main>
+</div></main>
 
 <footer>
     <a href="../index.php">🏠 Повернутися на головну</a>
@@ -107,8 +132,11 @@ function loadMatches(sport) {
         .then(data => {
             document.getElementById('matches-container').innerHTML = data;
         })
-        .catch(error => console.error('🔴 Помилка завантаження матчів:', error));
+        .catch(error => console.error('🔴 Помилка завантаження матчів:', error));     
 }
+window.onload = function() {
+    loadMatches('Футбол');
+};
 </script>
 
 <link rel="stylesheet" href="../styles.css">
@@ -138,5 +166,79 @@ function loadMatches(sport) {
 }
 </style>
 
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeLoginModal()">&times;</span>
+        <h2>Вход</h2>
+        <form action="../login.php" method="POST">
+            <div class="form-row">
+                <label for="username">Ім'я користувача:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-row">
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-row">
+                <button type="submit">Увійти</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+    <div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeRegisterModal()">&times;</span>
+        <h2>Регистрация</h2>
+        <form action="../register.php" method="POST">
+            <div class="form-row">
+                <label for="reg-username">Ім'я користувача:</label>
+                <input type="text" id="reg-username" name="reg-username" required>
+            </div>
+            <div class="form-row">
+                <label for="reg-password">Пароль:</label>
+                <input type="password" id="reg-password" name="reg-password" required>
+            </div>
+            <div class="form-row">
+                <label for="phone">Номер телефону:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-row" >
+                <button type="submit">Регистрация</button>
+            </div>
+            
+
+            <div class="alrReg">
+            <p class="switch-login">Вже маете акаунт? <a href="#" onclick="switchToLogin()">Увійти</a></p>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
+<script>
+    function openLoginModal() {
+            document.getElementById('loginModal').style.display = 'block';
+            closeRegisterModal();
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        function openRegisterModal() {
+            document.getElementById('registerModal').style.display = 'block';
+            closeLoginModal();
+        }
+
+        function closeRegisterModal() {
+            document.getElementById('registerModal').style.display = 'none';
+        }
+
+        function switchToLogin() {
+            closeRegisterModal();
+            openLoginModal();
+        }
+</script>
+
 </html>
