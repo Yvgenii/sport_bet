@@ -5,6 +5,32 @@ header("Pragma: no-cache"); // HTTP 1.0.
 header("Expires: 0"); // Пропуск кеша
 ?>
 
+<?php
+// Пример массива событий (можно заменить реальными данными из БД)
+$events = [
+    ['category' => 'Футбол', 'teams' => 'Ліверпуль vs Манчестер Сіті', 'time' => '20:00 Сьогодні'],
+    ['category' => 'Футбол', 'teams' => 'Шахтер vs Оболонь', 'time' => '10:00 Завтра'],
+    ['category' => 'Баскетбол', 'teams' => 'КТУ НАУ vs США', 'time' => '22:00 Сьогодні'],
+    ['category' => 'Кіберспорт', 'teams' => 'Team Spirit vs NAVI', 'time' => '15:00 Сьогодні'],
+    ['category' => 'Кіберспорт', 'teams' => 'FaZe Clan vs Astralis', 'time' => '19:00 Сьогодні'],
+    ['category' => 'Волейбол', 'teams' => 'Греція vs Італія', 'time' => '20:00 Сьогодні'],
+    ['category' => 'Футбол', 'teams' => 'Динамо Київ vs Заря', 'time' => '15:00 Сьогодні'],
+    ['category' => 'Баскетбол', 'teams' => 'Лейкерс vs Бостон', 'time' => '18:00 Сьогодні'],
+    ['category' => 'Теніс', 'teams' => 'Новак Джокович vs Рафаэль Надаль', 'time' => '16:00 Сьогодні'],
+    ['category' => 'Волейбол', 'teams' => 'Україна vs США', 'time' => '17:00 Сьогодні'],
+    ['category' => 'Баскетбол', 'teams' => 'Поколение чудес vs Сейрин', 'time' => '18:00 Сьогодні'],
+    ['category' => 'Кіберспорт', 'teams' => 'Clan Piru vs Astralis', 'time' => '10:00 Завтра'],
+];
+
+$perPage = 6;
+$totalPages = ceil(count($events) / $perPage);
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = max(1, min($totalPages, $page));
+
+$start = ($page - 1) * $perPage;
+$eventsOnPage = array_slice($events, $start, $perPage);
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -67,8 +93,8 @@ header("Expires: 0"); // Пропуск кеша
     </header>
     <!-- Главная страница -->
     <section id="home" class="main-content">
-        <h2>Ласкаво просимо до Sport Bet</h2>
-        <p>Ставки на спорт із найкращими коефіцієнтами!</p>
+        <h2 id="welcome">Ласкаво просимо до Sport Bet</h2>
+        <p id="betsText">Ставки на спорт із найкращими коефіцієнтами!</p>
 
         <!-- Блок с бонусом -->
 <div class="bonus-container">
@@ -89,273 +115,36 @@ header("Expires: 0"); // Пропуск кеша
                 <button class="category" onclick="showTopEvent('tennis', this)">Теніс</button>
                 <button class="category" onclick="showTopEvent('cybersport', this)">Кіберспорт</button>
             </div>
+
+
             <div class="events-grid">
-                <div class="event-card football">
-    <div class="event-header">
-        <span class="sport-type">Футбол</span>
-        <span class="league">Зимовий кубок</span>
-    </div>
-    <div class="teams">
-        <div class="team">
-            <span>Ліверпуль</span>
-        </div>
-        <span class="time">20:00 Сьогодні</span>
-        <div class="team">
-            <span>Манчестер Сіті</span>
-        </div>
-    </div>
-    <div class="odds">
-        <button class="odd" onclick="openBetModal('Ліверпуль vs Манчестер Сіті', '1', 1.50)">1 - 1.50</button>
-        <button class="odd" onclick="openBetModal('Ліверпуль vs Манчестер Сіті', 'X', 2.00)">X - 2.00</button>
-        <button class="odd" onclick="openBetModal('Ліверпуль vs Манчестер Сіті', '2', 2.80)">2 - 2.80</button>
-    </div>
-</div>
-
-
-                <div class="event-card football">
+            <?php foreach ($eventsOnPage as $event): ?>
+                <div class="event-card">
                     <div class="event-header">
-                        <span class="sport-type">Футбол</span>
-                        <span class="league">Ліга Чемпіонів</span>
+                        <span class="team"><?= htmlspecialchars($event['category']) ?></span>
+                        <span class="time"><?= htmlspecialchars($event['time']) ?></span>
                     </div>
                     <div class="teams">
-                        <div class="team">
-                            <span>Динамо Київ</span>
-                        </div>
-                        <span class="time">15:00 Сьогодні</span>
-                        <div class="team">
-                            <span>Заря</span>
-                        </div>
+                        <span class="team"><?= htmlspecialchars($event['teams']) ?></span>
                     </div>
                     <div class="odds">
-                        <button class="odd" onclick="openBetModal('Динамо Київ vs Заря', '1', 2.50)">1 - 2.50</button>
-                        <button class="odd" onclick="openBetModal('Динамо Київ vs Заря', 'X', 1.00)">X - 1.00</button>
-                        <button class="odd" onclick="openBetModal('Динамо Київ vs Заря', '2', 1.80)">2 - 1.80</button>
+                        <button class="odd">1.8</button>
+                        <button class="odd">2.3</button>
+                        <button class="odd">3.0</button>
                     </div>
                 </div>
-                      <div class="event-card football">
-    <div class="event-header">
-        <span class="sport-type">Футбол</span>
-        <span class="league">Чемпионат Мира</span>
-    </div>
-    <div class="teams">
-        <div class="team">
-            <span>Шахтер</span>
+            <?php endforeach; ?>
         </div>
-        <span class="time">10:00 Завтра</span>
-        <div class="team">
-            <span>Оболонь</span>
-        </div>
-    </div>
-    <div class="odds">
-        <button class="odd" onclick="openBetModal('Шахтер vs Оболонь', '1', 2.00)">1 - 2.00</button>
-        <button class="odd" onclick="openBetModal('Шахтер vs Оболонь', 'X', 1.30)">X - 1.30</button>
-        <button class="odd" onclick="openBetModal('Шахтер vs Оболонь', '2', 2.20)">2 - 2.20</button>
-    </div>
-</div>
 
-<div class="event-card basketball">
-    <div class="event-header">
-        <span class="sport-type">Баскетбол</span>
-        <span class="league">NBA</span>
-    </div>
-    <div class="teams">
-        <div class="team">
-            <span>Лейкерс</span>
+        <div class="pagination" style="margin-top: 30px;">
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <a href="?page=<?= $i ?>" class="<?= $i === $page ? 'active' : '' ?>">
+                    <?= $i ?>
+                </a>
+            <?php endfor; ?>
         </div>
-        <span class="time">18:00 Сьогодні</span>
-        <div class="team">
-            <span>Бостон</span>
-        </div>
-    </div>
-    <div class="odds">
-        <button class="odd" onclick="openBetModal('Лейкерс vs Бостон', '1', 1.90)">1 - 1.90</button>
-        <button class="odd" onclick="openBetModal('Лейкерс vs Бостон', '2', 2.10)">2 - 2.10</button>
-    </div>
-</div>
-<div class="event-card basketball">
-    <div class="event-header">
-        <span class="sport-type">Баскетбол</span>
-        <span class="league">NBA</span>
-    </div>
-    <div class="teams">
-        <div class="team">
-            <span>КТУ НАУ</span>
-        </div>
-        <span class="time">22:00 Сьогодні</span>
-        <div class="team">
-            <span>США</span>
-        </div>
-    </div>
-    <div class="odds">
-        <button class="odd" onclick="openBetModal('Лейкерс vs Бостон', '1', 1.90)">1 - 1.90</button>
-        <button class="odd" onclick="openBetModal('Лейкерс vs Бостон', '2', 2.10)">2 - 2.10</button>
-    </div>
-</div>
-
-<div class="event-card basketball">
-    <div class="event-header">
-        <span class="sport-type">Баскетбол</span>
-        <span class="league">NBA</span>
-    </div>
-    <div class="teams">
-        <div class="team">
-            <span>Поколение чудес</span>
-        </div>
-        <span class="time">18:00 Сьогодні</span>
-        <div class="team">
-            <span>Сейрин</span>
-        </div>
-    </div>
-    <div class="odds">
-        <button class="odd" onclick="openBetModal('Поколение чудес vs Сейрин', '1', 1.90)">1 - 1.90</button>
-        <button class="odd" onclick="openBetModal('Поколение чудес vs Сейрин', '2', 2.10)">2 - 2.10</button>
-    </div>
-</div>
-
-
-<div class="event-card cybersport">
-    <div class="event-header">
-        <span class="sport-type">Кіберспорт</span>
-        <span class="league">Dota 2</span>
-    </div>
-    <div class="teams">
-        <div class="team">
-            <span>Team Spirit</span>
-        </div>
-        <span class="time">15:00 Сьогодні</span>
-        <div class="team">
-            <span>NAVI</span>
-        </div>
-    </div>
-    <div class="odds">
-        <button class="odd" onclick="openBetModal('Team Spirit vs NAVI', '1', 1.65)">1 - 1.65</button>
-        <button class="odd" onclick="openBetModal('Team Spirit vs NAVI', '2', 2.30)">2 - 2.30</button>
-    </div>
-</div>
-
-<div class="event-card cybersport">
-    <div class="event-header">
-        <span class="sport-type">Кіберспорт</span>
-        <span class="league">CS:GO</span>
-    </div>
-    <div class="teams">
-        <div class="team">
-            <span>Clan Piru</span>
-        </div>
-        <span class="time">10:00 Завтра</span>
-        <div class="team">
-            <span>Astratil </span>
-        </div>
-    </div>
-    <div class="odds">
-        <button class="odd" onclick="openBetModal('FaZe Clan vs Astralis', '1', 1.75)">1 - 1.75</button>
-        <button class="odd" onclick="openBetModal('FaZe Clan vs Astralis', '2', 2.10)">2 - 2.10</button>
-    </div>
-</div>
-
-<div class="event-card cybersport">
-    <div class="event-header">
-        <span class="sport-type">Кіберспорт</span>
-        <span class="league">CS:GO</span>
-    </div>
-    <div class="teams">
-        <div class="team">
-            <span>FaZe Clan</span>
-        </div>
-        <span class="time">19:00 Сьогодні</span>
-        <div class="team">
-            <span>Astralis</span>
-        </div>
-    </div>
-    <div class="odds">
-        <button class="odd" onclick="openBetModal('FaZe Clan vs Astralis', '1', 1.75)">1 - 1.75</button>
-        <button class="odd" onclick="openBetModal('FaZe Clan vs Astralis', '2', 2.10)">2 - 2.10</button>
-    </div>
-</div>
-
-
-<div class="event-card volleyball">
-    <div class="event-header">
-        <span class="sport-type">Волейбол</span>
-        <span class="league">Чемпионат Мира</span>
-    </div>
-    <div class="teams">
-        <div class="team">
-            <span>Україна</span>
-        </div>
-        <span class="time">17:00 Сьогодні</span>
-        <div class="team">
-            <span>США</span>
-        </div>
-    </div>
-    <div class="odds">
-        <button class="odd" onclick="openBetModal('Україна vs США', '1', 1.80)">1 - 1.80</button>
-        <button class="odd" onclick="openBetModal('Україна vs США', '2', 2.20)">2 - 2.20</button>
-    </div>
-</div>
-
-<div class="event-card volleyball">
-    <div class="event-header">
-        <span class="sport-type">Волейбол</span>
-        <span class="league">Чемпионат Мира</span>
-    </div>
-    <div class="teams">
-        <div class="team">
-            <span>Греція</span>
-        </div>
-        <span class="time">20:00 Сьогодні</span>
-        <div class="team">
-            <span>Італія</span>
-        </div>
-    </div>
-    <div class="odds">
-        <button class="odd" onclick="openBetModal('Греція vs Італія', '1', 1.80)">1 - 1.80</button>
-        <button class="odd" onclick="openBetModal('Греція vs Італія', '2', 2.20)">2 - 2.20</button>
-    </div>
-</div>
-
-<div class="event-card volleyball">
-    <div class="event-header">
-        <span class="sport-type">Волейбол</span>
-        <span class="league">Чемпионат Мира</span>
-    </div>
-    <div class="teams">
-        <div class="team">
-            <span>Італія</span>
-        </div>
-        <span class="time">20:00 Сьогодні</span>
-        <div class="team">
-            <span>Іспанія</span>
-        </div>
-    </div>
-    <div class="odds">
-        <button class="odd" onclick="openBetModal('Греція vs Італія', '1', 1.80)">1 - 1.80</button>
-        <button class="odd" onclick="openBetModal('Греція vs Італія', '2', 2.20)">2 - 2.20</button>
-    </div>
-</div>
-
-<div class="event-card tennis">
-    <div class="event-header">
-        <span class="sport-type">Теніс</span>
-        <span class="league">ATP</span>
-    </div>
-    <div class="teams">
-        <div class="team">
-            <span>Новак Джокович</span>
-        </div>
-        <span class="time">16:00 Сьогодні</span>
-        <div class="team">
-            <span>Рафаэль Надаль</span>
-        </div>
-    </div>
-    <div class="odds">
-        <button class="odd" onclick="openBetModal('Новак Джокович vs Рафаэль Надаль', '1', 1.85)">1 - 1.85</button>
-        <button class="odd" onclick="openBetModal('Новак Джокович vs Рафаэль Надаль', '2', 2.10)">2 - 2.10</button>
-    </div>
-</div>
-              </div>   </div>
-        </section>
-    </section>
+</section>
+</section>
 
 
     <!-- Скрипт для переключения вида спорта и выделения кнопки -->

@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enter_referral_code']
       font-family: Arial, sans-serif;
       background-color: #f9f9f9;
       margin: 0;
-      padding: 20px;
+
     }
     .referral-container {
       max-width: 800px;
@@ -218,6 +218,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enter_referral_code']
   </style>
 </head>
 <body>
+
+<header>
+        <div class="top-bar">
+            <div class="logo">
+                <h1><a href="../index.php" onclick="showHomePage()">Sport Bet</a></h1>
+            </div>
+
+            <!-- Верхняя навигационная панель -->
+            <nav class="main-nav">
+    <a href="../rozdily/events.php">Спортивні події</a>
+    <a href="../rozdily/slots.php">Слоти</a>
+    <a href="../rozdily/mini-games.php">Міні ігри</a>
+    <a href="../rozdily/referral.php">Реферальна програма</a>
+</nav>
+
+
+<nav class="auth-links">
+    <?php if (isset($_SESSION['user'])): ?>
+        <!-- Пользователь вошел -->
+        <span>Баланс: <?php echo htmlspecialchars($_SESSION['user']['balance']); ?>₴</span>
+        <a href="../profile.php">Профіль</a>
+        <a href="../logout.php">Вийти</a>
+    <?php else: ?>
+        <!-- Пользователь не вошел -->
+        <a href="#" onclick="openLoginModal()">Вхід</a> | <a href="#" onclick="openRegisterModal()">Реєстрація</a>
+    <?php endif; ?>
+</nav>
+
+        </div>
+    </header>
+
+
+
   <div class="referral-container">
     <div class="referral-header">
       <h1>🎁 Реферальна програма</h1>
